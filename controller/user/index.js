@@ -2,11 +2,13 @@ const { Users } = require('../../models');
 
 module.exports = {
   // 전체 유저 목록
-  get: (req, res) => {
+  get: async (req, res) => {
     try {
-      console.log('/user  get');
+      const users = await Users.findAll();
+      return res.json(users);
     } catch (error) {
       console.error(error);
+      return res.status(400).json({ message: 'sever error' });
     }
   },
   // 새로운 유저 생성
@@ -21,7 +23,7 @@ module.exports = {
         return res.status(409).json({ message: `userName already exists` });
       }
       const user = await Users.create({ userName, userDesc, hasCat });
-      res.status(201).json({ user, message: 'successfully created' });
+      return res.status(201).json({ user, message: 'successfully created' });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ message: 'sever error' });
