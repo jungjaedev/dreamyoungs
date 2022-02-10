@@ -1,7 +1,7 @@
 module.exports = {
   get: (req, res) => {
     try {
-      res.json({ test2: 'OK' });
+      console.log('delay');
     } catch (error) {
       console.error(error);
     }
