@@ -3,14 +3,16 @@ const dotEnv = require('dotenv');
 const { sequelize } = require('./models');
 
 const test1Router = require('./router/test1.js');
-// const test2Router = require('./router/test2');
+const test2Router = require('./router/test2');
 // const delayRouter = require('./router/delay');
 // const userRouter = require('./router/user');
 
 dotEnv.config();
 const PORT = process.env.PORT;
 const app = express();
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 
 sequelize
@@ -23,7 +25,7 @@ sequelize
   });
 
 app.use('/test1', test1Router);
-// app.use('/test2', test2Router);
+app.use('/test2', test2Router);
 // app.use('/delay', delayRouter);
 // app.use('/user', userRouter);
 
