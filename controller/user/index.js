@@ -7,7 +7,7 @@ module.exports = {
       return res.json(users);
     } catch (error) {
       console.error(error);
-      return res.status(400).json({ message: 'sever error' });
+      return res.status(400).json({ message: 'getAllUsers sever error' });
     }
   },
   createUser: async (req, res) => {
@@ -24,7 +24,7 @@ module.exports = {
       return res.status(201).json({ user, message: 'successfully created' });
     } catch (error) {
       console.error(error);
-      return res.status(400).json({ message: 'sever error' });
+      return res.status(400).json({ message: 'createUser sever error' });
     }
   },
   checkHasCat: async (req, res) => {
@@ -42,7 +42,7 @@ module.exports = {
       return res.json({ hasCat });
     } catch (error) {
       console.error(error);
-      return res.status(400).json({ message: 'sever error' });
+      return res.status(400).json({ message: 'checkHasCat sever error' });
     }
   },
   updateHasCat: async (req, res) => {
@@ -69,7 +69,30 @@ module.exports = {
       return res.json({ message: 'successfully updated' });
     } catch (error) {
       console.error(error);
-      return res.status(400).json({ message: 'sever error' });
+      return res.status(400).json({ message: 'updateHasCat sever error' });
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      const index = req.params.userIndex;
+      const user = await Users.findOne({
+        raw: true,
+        where: {
+          index,
+        },
+      });
+      if (!user) {
+        res.status(404).json({ message: `user doesn't exist` });
+      }
+      await Users.destroy({
+        where: {
+          index,
+        },
+      });
+      res.json({ message: 'delete completed' });
+    } catch {
+      console.error(error);
+      return res.status(400).json({ message: 'deleteUser sever error' });
     }
   },
 };
